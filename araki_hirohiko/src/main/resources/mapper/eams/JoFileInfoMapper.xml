@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jojo.dao.eams.JoFileInfoMapper">
+
+    <select id="getFileInfoById" parameterType="java.lang.Long" resultType="com.jojo.po.JoFileInfo">
+        select * from jojo_file_info where fileid=#{fileId}
+    </select>
+
+    <insert id="insert" parameterType="com.jojo.po.JoFileInfo">
+        insert into jojo_file_info (fileid, fileDes, fileInfo,
+                                    fileCategory, fileCovers, createDate,
+                                    modifyDate, createUser, modifyUser
+        )
+        values (#{fileid,jdbcType=BIGINT}, #{filedes,jdbcType=VARCHAR}, #{fileinfo,jdbcType=VARCHAR},
+                #{filecategory,jdbcType=VARCHAR}, #{filecovers,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP},
+                #{modifydate,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{modifyuser,jdbcType=INTEGER}
+               )
+    </insert>
+
+</mapper>

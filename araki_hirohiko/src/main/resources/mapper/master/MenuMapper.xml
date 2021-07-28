@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jojo.dao.master.MenuMapper">
+    <resultMap id="MenuResultMap" type="com.jojo.bo.commonbean.Menus">
+        <result column="menucode" property="key" />
+        <result column="menuname" property="name" />
+        <result column="path" property="path" />
+    </resultMap>
+    <!-- 查询一级目录 -->
+    <select id="getBaseMenu" resultMap="MenuResultMap">
+        select
+            m.menucode,
+            m.menuname,
+            m.path,
+            m.icon,
+            m.content
+        from
+            menus m
+        where
+            type = '01'
+        order by sortid
+    </select>
+
+    <!-- 查询子目录 -->
+    <select id="getSubMenuByBaseMenu" resultMap="MenuResultMap" parameterType="java.lang.String">
+        select
+            m.menucode,
+            m.menuname,
+            m.path,
+            m.icon,
+            m.content
+        from
+            menus_ralation r
+        inner join
+            menus m
+        on
+            r.submenu = m.menucode
+        where
+            r.menu = #{baseMenu}
+        order by m.sortid
+    </select>
+</mapper>

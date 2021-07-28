@@ -1,0 +1,29 @@
+server:
+  port: 8001
+  tomcat:
+    basedir: /app/tmp/file
+master:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gthresh?useUnicode=true&allowMultiQueries=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 153532
+slaver:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@113.125.201.131:15212/orcl
+    username: syy40_sccd_kf
+    password: syy40_sccd_kf
+    validation-query-timeout: 0
+eams:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gthresh_eams?useUnicode=true&allowMultiQueries=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 153532
+# mybatis:
+#  type-aliases-package: com.shineyue.mapper
+file:
+  uploadpath: D:\workspace\tmp\file\
+  fdfs:
+    http_secret_key: FastDFS1234567890

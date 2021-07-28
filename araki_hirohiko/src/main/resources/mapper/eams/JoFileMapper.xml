@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jojo.dao.eams.JoFileMapper">
+    <!-- 查询文件信息 -->
+    <select id="getAllFiles" resultType="com.jojo.po.JoFile">
+        select
+            *
+        from
+            jojo_file
+    </select>
+
+    <select id="getFileById" parameterType="java.lang.Long" resultType="com.jojo.po.JoFile">
+        select * from jojo_file where fileid=#{fileId}
+    </select>
+
+    <insert id="insert" parameterType="com.jojo.po.JoFile">
+        insert into jojo_file (fileId, fileName, fileType,
+                                    fileSize, createDate, modifyDate,
+                                    createUser, modifyUser, filePath
+        )
+        values (#{fileid,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR}, #{filetype,jdbcType=VARCHAR},
+                #{filesize,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifydate,jdbcType=TIMESTAMP},
+                #{createuser,jdbcType=INTEGER}, #{modifyuser,jdbcType=INTEGER}, #{filepath,jdbcType=VARCHAR}
+               )
+    </insert>
+
+</mapper>

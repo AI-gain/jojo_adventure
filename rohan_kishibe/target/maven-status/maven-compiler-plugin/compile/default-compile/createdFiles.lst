@@ -1,0 +1,6 @@
+com\jojo\auth\annotaion\PassAuth.class
+com\jojo\auth\utils\token\Token.class
+com\jojo\auth\config\InterceptorConfig.class
+com\jojo\auth\controller\LoginController.class
+com\jojo\auth\interceptor\AuthenticationInterceptor.class
+com\jojo\auth\bo\User.class

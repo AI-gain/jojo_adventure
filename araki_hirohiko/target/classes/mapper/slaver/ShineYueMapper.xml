@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jojo.dao.slaver.ShineYueMapper">
+    <resultMap id="TableInfoResultMap" type="com.jojo.bo.dbbean.TableInfo">
+        <result column="tableName" property="tableName" />
+        <result column="comments" property="comments" />
+    </resultMap>
+    <sql id="TableInfo_Column_List">
+        tableName, comments
+    </sql>
+    <!-- 查询指定角色下（SYY40_SCCD_KF）的所有表格 -->
+    <select id="getAllTables" resultMap="TableInfoResultMap" parameterType="java.lang.String">
+        select
+            t.table_name tableName,
+            (
+                select
+                    uc.COMMENTS
+                from
+                    user_tab_comments uc
+                where
+                    uc.TABLE_NAME=t.table_name
+            ) comments
+        from
+            all_tables t
+        where
+            t.owner = #{owner}
+        order by t.table_name
+    </select>
+
+    <resultMap id="TableContentResultMap" type="com.jojo.bo.dbbean.TableContent">
+        <result column="key" property="key" />
+        <result column="name" property="name" />
+        <result column="dataType" property="dataType" />
+        <result column="isNull" property="isNull" />
+        <result column="isKey" property="isKey" />
+        <result column="explain" property="explain" />
+    </resultMap>
+    <!-- 获取详细表信息 -->
+    <select id="getTableMsg" resultMap="TableContentResultMap" parameterType="java.lang.String">
+        select
+            rownum key,
+            t.colUMN_NAME  name,
+            t.DATA_TYPE || '(' || t.DATA_LENGTH || ')'  dataType,
+            DECODE(t.NULLABLE, 'N','否','Y','是') isNull,
+            (
+                select
+                    'key'
+                from
+                     dual
+                where
+                    t.colUMN_NAME in (
+                        select
+                            cu.COLUMN_NAME
+                        from
+                            user_cons_columns cu,
+                            user_constraints au
+                        where
+                            cu.constraint_name = au.constraint_name
+                        and au.constraint_type = 'P'
+                        and au.table_name = #{tableName}
+                    )
+            ) isKey,
+            t1.COMMENTS  explain
+        from
+            User_Tab_Cols t,
+            User_Col_Comments t1
+        where
+            t.table_name = t1.table_name
+        AND t.column_name = t1.column_name
+        AND t.table_name = #{tableName}
+    </select>
+
+
+</mapper>
